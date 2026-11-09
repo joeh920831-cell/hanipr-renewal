@@ -29,7 +29,8 @@ export const ORG = {
   name: '하니피알',
   alternateName: ['HANIPR', '금솔 하니피알'],
   url: `${BASE_URL}/`,
-  logo: `${BASE_URL}/favicon.svg`,
+  logo: `${BASE_URL}/og.png`,
+  image: `${BASE_URL}/og.png`,
   description: '한의원·한방병원 전문 SEO·AEO·GEO 마케팅 대행사. 네이버 AI 브리핑·ChatGPT 등 AI 검색 노출, 네이버 클립·쇼츠, 마케팅 자동화, 에이전트Q 분석.',
   telephone: '+82-2-761-1633',
   email: EMAIL,
@@ -87,6 +88,9 @@ export function page({ path, title, description, h1, body, jsonld = [], breadcru
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:url" content="${BASE_URL}${path}">
 <meta property="og:image" content="${BASE_URL}/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="${BASE_URL}/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#1F7A5C">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">

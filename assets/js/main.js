@@ -26,7 +26,10 @@ document.querySelectorAll('.lead-form').forEach((form) => {
     try {
       if (!endpoint) throw new Error('no endpoint');
       const body = new URLSearchParams({ ...data, agree: 'Y', source: form.dataset.source, page: location.pathname });
-      const res = await fetch(endpoint, { method: 'POST', body });
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 15000); // 응답 없는 서버에서 무한 대기 방지
+      const res = await fetch(endpoint, { method: 'POST', body, signal: ctrl.signal });
+      clearTimeout(timer);
       const json = await res.json();
       if (!json.ok) throw new Error(json.error || 'rejected');
       form.outerHTML = `<div class="form-done" role="status"><b>신청이 접수되었습니다</b>담당 컨설턴트가 영업일 기준 1일 안에 연락드립니다.</div>`;

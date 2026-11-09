@@ -23,16 +23,32 @@ try {
     await page.close();
   }
 
-  // 모바일: 상담 폼 제출 버튼이 하단 고정 바에 가리지 않아야 함
+  // 모바일: 페이지 맨 아래에서 하단 고정 바가 마지막 폼 버튼·푸터를 가리지 않아야 함
   const m = await browser.newPage({ viewport: { width: 390, height: 844 } });
   await m.goto('http://localhost:8124/consult/');
   await m.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
   await m.waitForTimeout(200);
-  const btn = await m.locator('#consult-form button[type=submit]').boundingBox();
   const bar = await m.locator('.mobile-bar').boundingBox();
-  await m.locator('#consult-form button[type=submit]').scrollIntoViewIfNeeded();
-  const btn2 = await m.locator('#consult-form button[type=submit]').boundingBox();
-  if (btn2.y + btn2.height > bar.y) fails.push(`consult submit hidden behind mobile bar (${btn2.y + btn2.height} > ${bar.y})`);
+  const foot = await m.locator('.site-footer').boundingBox();
+  if (foot.y + foot.height > bar.y) fails.push(`footer hidden behind mobile bar (${foot.y + foot.height} > ${bar.y})`);
+
+  // 필수 12: 모바일에서도 H1 이 페이지에서 가장 큰 글씨
+  const h = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  await h.goto('http://localhost:8124/');
+  const sizes = await h.evaluate(() => {
+    const h1 = parseFloat(getComputedStyle(document.querySelector('h1')).fontSize);
+    const max = Math.max(...[...document.querySelectorAll('body *:not(h1)')].filter((e) => e.childNodes.length && [...e.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim())).map((e) => parseFloat(getComputedStyle(e).fontSize)));
+    return { h1, max };
+  });
+  if (sizes.h1 <= sizes.max) fails.push(`H1 ${sizes.h1}px not largest on mobile (max other ${sizes.max}px)`);
+
+  // 움직임 줄이기: 복제 카드 숨김, 복제 링크는 포커스 불가
+  const r = await browser.newPage({ reducedMotion: 'reduce' });
+  await r.goto('http://localhost:8124/');
+  const visibleReviews = await r.locator('#rv-title ~ * .review, .marquee .review').evaluateAll((els) => els.filter((e) => e.offsetParent).length);
+  if (visibleReviews !== 10) fails.push(`reduced motion shows ${visibleReviews} review cards (want 10)`);
+  const dupFocusable = await r.evaluate(() => [...document.querySelectorAll('[aria-hidden="true"] a')].filter((a) => !a.closest('[inert]')).length);
+  if (dupFocusable) fails.push(`${dupFocusable} focusable links inside aria-hidden duplicates`);
 
   // 동의 누락 → 차단 메시지
   await m.fill('#consult-form [name=name]', '테스트');
@@ -48,6 +64,14 @@ try {
   await m.click('#consult-form button[type=submit]');
   await m.waitForFunction(() => document.querySelector('#consult-form .form-msg').textContent.includes('02-761-1633'));
   assert.equal(await m.inputValue('#consult-form [name=name]'), '테스트');
+
+  // 응답 없는 서버 → 시간 초과 후 전화 안내
+  await m.clock.install();
+  await m.route('**/hang-endpoint', () => {});
+  await m.evaluate(() => { const f = document.querySelector('#consult-form'); f.dataset.endpoint = 'http://localhost:8124/hang-endpoint'; f.querySelector('.form-msg').textContent = ''; });
+  await m.click('#consult-form button[type=submit]');
+  await m.clock.runFor(16000);
+  await m.waitForFunction(() => document.querySelector('#consult-form .form-msg').textContent.includes('02-761-1633'), null, { timeout: 3000 });
 
   // 전송 성공 → 완료 메시지
   await m.route('**/ok-endpoint', (r) => r.fulfill({ contentType: 'application/json', body: '{"ok":true}' }));

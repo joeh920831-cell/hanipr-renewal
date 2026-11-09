@@ -56,7 +56,7 @@ ul { list-style: none; }
 
 /* Hero */
 .hero { padding: 88px 0 72px; }
-.hero h1 { font-size: clamp(34px, 5.6vw, 64px); line-height: 1.18; font-weight: 800; letter-spacing: -.035em; max-width: 920px; }
+.hero h1 { font-size: clamp(40px, 5.6vw, 64px); line-height: 1.18; font-weight: 800; letter-spacing: -.035em; max-width: 920px; }
 .hero .hero-sub { font-size: clamp(18px, 2vw, 22px); font-weight: 700; margin-top: 22px; }
 .hero .hero-desc { color: var(--sub); font-size: 17px; margin-top: 10px; max-width: 640px; }
 .hero .btn-row { margin-top: 34px; }
@@ -96,7 +96,7 @@ a.card:hover { border-color: var(--point); transform: translateY(-2px); }
 .stats { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .stat { padding: 36px 24px; text-align: center; }
 .stat + .stat { border-left: 1px solid var(--line); }
-.stat b { display: block; font-size: clamp(36px, 4.6vw, 52px); font-weight: 800; color: var(--point); letter-spacing: -.03em; line-height: 1.1; }
+.stat b { display: block; font-size: clamp(32px, 4.6vw, 52px); font-weight: 800; color: var(--point); letter-spacing: -.03em; line-height: 1.1; }
 .stat span { color: var(--sub); font-size: 15px; }
 
 /* Agent Q dashboard */
@@ -233,7 +233,7 @@ table.data tr.us td { color: var(--point); font-weight: 700; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .marquee-track { animation: none; flex-wrap: wrap; width: auto; }
-  .marquee-track [aria-hidden="true"] { display: none; }
+  .marquee .marquee-dup { display: none; }
   .marquee { mask-image: none; }
 }
 .kakao-fab.tel { background: var(--point); color: #fff; }
@@ -243,3 +243,4 @@ table.data tr.us td { color: var(--point); font-weight: 700; }
 @media (max-width: 768px) { .video .thumb, .video iframe { max-height: 360px; } }
 .form label { display: block; }
 .form label > input, .form label > select, .form label > textarea { display: block; margin-top: 6px; }
+.marquee-dup { display: contents; }

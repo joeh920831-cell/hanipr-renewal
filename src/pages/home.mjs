@@ -119,7 +119,7 @@ const body = `
     <div class="section-head center"><p class="eyebrow">원장님 리얼 후기</p><h2 class="section-title" id="rv-title">함께하는 원장님들이 직접 남긴 이야기</h2><p class="section-lead">원장님 성함과 한의원명은 일부 가려서 소개합니다.</p></div>
   </div>
   <div class="marquee" tabindex="0" aria-label="원장님 후기 목록, 마우스를 올리거나 선택하면 멈춥니다">
-    <div class="marquee-track">${marqueeReviews.map(reviewCard).join('')}<div style="display:contents" aria-hidden="true">${marqueeReviews.map(reviewCard).join('')}</div></div>
+    <div class="marquee-track">${marqueeReviews.map(reviewCard).join('')}<div class="marquee-dup" aria-hidden="true" inert>${marqueeReviews.map(reviewCard).join('')}</div></div>
   </div>
   <div class="container">
     <div class="btn-row" style="margin-top:32px;justify-content:center"><a class="btn" href="/reviews/">원장님 후기 ${reviews.length}건 전체 보기</a></div>
@@ -147,7 +147,7 @@ const body = `
     <div class="section-head"><p class="eyebrow">금솔이 만든 영상</p><h2 class="section-title" id="vg-title">한의원 숏폼 영상 갤러리</h2><p class="section-lead">영상 카드가 오른쪽에서 왼쪽으로 계속 흘러갑니다. 마우스를 올리거나 키보드로 선택하면 멈추고, 누르면 영상이 열립니다.</p></div>
   </div>
   <div class="marquee" tabindex="0" aria-label="영상 갤러리, 마우스를 올리면 멈춥니다">
-    <div class="marquee-track video-track">${VIDEOS.map(videoCard).join('')}<div style="display:contents" aria-hidden="true">${VIDEOS.map(videoCard).join('')}</div></div>
+    <div class="marquee-track video-track">${VIDEOS.map(videoCard).join('')}<div class="marquee-dup" aria-hidden="true" inert>${VIDEOS.map(videoCard).join('')}</div></div>
   </div>
 </section>
 

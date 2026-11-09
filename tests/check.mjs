@@ -69,6 +69,10 @@ ok(css.includes('prefers-reduced-motion'), 'css: prefers-reduced-motion');
 
 const sitemap = read('sitemap.xml') || '';
 for (const url of Object.keys(PAGES)) ok(sitemap.includes(`<loc>${BASE_URL}${url}</loc>`), `sitemap: ${url}`);
+ok(existsSync(join(ROOT, 'og.png')), 'og.png exists');
+const vi = read('.vercelignore') || '';
+for (const d of ['docs', 'apps-script', 'src', 'tests', 'data']) ok(vi.includes(d), `.vercelignore: ${d}`);
+ok(/"trailingSlash":\s*true/.test(read('vercel.json') || ''), 'vercel.json trailingSlash');
 ok(/Sitemap: /.test(read('robots.txt') || ''), 'robots.txt: Sitemap line');
 
 if (fails.length) { console.log(fails.map((f) => '✗ ' + f).join('\n') + `\n${fails.length} failed`); process.exit(1); }
