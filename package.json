@@ -1,0 +1,6 @@
+{
+  "name": "hanipr-renewal",
+  "private": true,
+  "type": "module",
+  "scripts": { "test": "node tests/check.mjs && node --test tests/" }
+}
