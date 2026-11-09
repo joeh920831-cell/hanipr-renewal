@@ -2,5 +2,8 @@
   "name": "hanipr-renewal",
   "private": true,
   "type": "module",
-  "scripts": { "test": "node tests/check.mjs && node --test tests/" }
+  "scripts": {
+    "test": "node tests/check.mjs && node --test tests/*.test.mjs",
+    "build": "node scripts/build.mjs"
+  }
 }
