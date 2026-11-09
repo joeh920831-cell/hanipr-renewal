@@ -241,3 +241,5 @@ table.data tr.us td { color: var(--point); font-weight: 700; }
 .logos strong { font-size: 15px; text-align: center; overflow-wrap: anywhere; }
 @media (max-width: 960px) { .logos { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 768px) { .video .thumb, .video iframe { max-height: 360px; } }
+.form label { display: block; }
+.form label > input, .form label > select, .form label > textarea { display: block; margin-top: 6px; }
