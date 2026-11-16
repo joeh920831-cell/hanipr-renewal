@@ -2,10 +2,10 @@ import { productPage } from '../product.mjs';
 import { esc } from '../layout.mjs';
 import { VIDEOS } from './home.mjs';
 
-const cards = VIDEOS.map((v) => `<div class="card"><span class="num">${v.tag}</span><h3>${esc(v.title)}</h3><p>${v.youtube ? `<a class="more" href="https://www.youtube.com/shorts/${v.youtube}" target="_blank" rel="noopener">영상 보기 →</a>` : '기획 예시 주제입니다.'}</p></div>`).join('');
+const cards = `<div class="phones" style="max-width:720px;margin:0 auto">${VIDEOS.slice(0, 3).map((v) => `<div class="phone"><span class="platform">${v.platform}</span><span class="play" aria-hidden="true">▶</span><div><strong>${esc(v.title)}</strong><br><small>${esc(v.who)}</small></div></div>`).join('')}</div>`;
 
 export default productPage({
-  path: '/shortform/', name: '숏폼 영상', serviceType: '한의원 숏폼 영상 제작·운영',
+  path: '/shortform/', name: '숏폼 영상', serviceType: '한의원 숏폼 영상 제작·운영', product: '숏폼 영상 (네이버 클립·쇼츠)',
   title: '한의원 숏폼 영상 | 네이버 클립·유튜브 쇼츠 제작 | 하니피알',
   description: '한의원·한방병원 환자 질문을 30~60초 네이버 클립·유튜브 쇼츠로 기획·촬영·편집하고 검색과 피드에 동시에 노출합니다.',
   h1: '한의원 숏폼 영상,<br>네이버 클립과 쇼츠로 환자를 먼저 만납니다',
@@ -26,7 +26,7 @@ export default productPage({
     ['촬영·편집', '한의원 방문 촬영 후 자막·썸네일·세로형 편집을 진행합니다.'],
     ['배포·성과 보고', '클립·쇼츠 업로드 후 조회수, 검색 노출, 프로필 유입을 보고합니다.'],
   ],
-  example: { title: '한의원 숏폼 주제 예시', lead: '아래는 진료 분야별 기획 주제 예시입니다. 실제 제작 영상은 메인 영상 갤러리에서 보실 수 있습니다.', html: `<div class="grid grid-3">${cards}</div>` },
+  example: { title: '한의원 숏폼 주제 예시', lead: '아래는 진료 분야별 기획 주제 예시입니다. 실제 제작 영상은 메인 영상 갤러리에서 보실 수 있습니다.', html: cards },
   faqs: [
     ['원장님이 꼭 출연해야 하나요?', '원장님 출연 영상이 신뢰도가 높아 권해드리지만, 목소리 내레이션이나 치료실·한약재 영상 위주로도 제작할 수 있습니다.'],
     ['한 달에 몇 편 제작하나요?', '보통 월 4~8편으로 시작하며, 한 번 촬영으로 여러 편을 만들어 원장님 시간을 줄입니다.'],

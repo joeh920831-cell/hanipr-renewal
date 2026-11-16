@@ -11,15 +11,21 @@ const PAGES = {
   '/shortform/': 'shortform/index.html',
   '/automation/': 'automation/index.html',
   '/agent-q/': 'agent-q/index.html',
-  '/consult/': 'consult/index.html',
-  '/reviews/': 'reviews/index.html',
+  '/diagnosis/': 'diagnosis/index.html',
+  '/magazine/': 'magazine/index.html',
+  '/cases/': 'cases/index.html',
+  '/magazine/naver-ai-briefing/': 'magazine/naver-ai-briefing/index.html',
+  '/magazine/seo-aeo-geo/': 'magazine/seo-aeo-geo/index.html',
+  '/magazine/medical-ad-checklist/': 'magazine/medical-ad-checklist/index.html',
 };
+// 필수 10: 메인 + 3대 상품 + 에이전트Q + 상담·진단은 모든 페이지 메뉴에서 이동 가능해야 함
+const MENU = ['/', '/seo-aeo-geo/', '/shortform/', '/automation/', '/agent-q/', '/diagnosis/', '/magazine/', '/cases/'];
 const BANNED = ['가장', '1위', '최고', '유일', 'no.1', 'no1', '국내 최다'];
 const H1 = 'SEO·AEO·GEO, 한의원 한방병원 마케팅대행사';
 const TITLE = '한의원한방병원 마케팅·신환 늘리기 | AI 검색 노출 전문 금솔';
 const DESC_KEYWORDS = ['SEO·AEO·GEO', '네이버 AI 브리핑', '네이버 클립·쇼츠', '에이전트Q', 'AI마케팅',
   '한의원홈페이지 제작', '한방병원 마케팅 대행사', '무료 AI 노출 진단', '상담'];
-const NETWORK = ['hanbangcar.com', 'womandoc.co.kr', 'sschuna.com', 'ipwon.com', 'sanjaeok.com', 'healingoasis.kr'];
+const NETWORK = ['hanbangcar.com', 'womandoc.co.kr', 'sschuna.com', 'ipwon.com', 'sanjaeok.com', 'healingoasis.kr', 'hanitalk.net'];
 
 const fails = [];
 const ok = (cond, msg) => { if (!cond) fails.push(msg); };
@@ -39,7 +45,7 @@ for (const [url, file] of Object.entries(PAGES)) {
   ok(html.includes('application/ld+json'), `${file}: JSON-LD`);
   const visible = (text(html) + ' ' + (html.match(/content="[^"]*"/g) || []).join(' ')).toLowerCase();
   for (const w of BANNED) ok(!visible.includes(w), `${file}: banned word "${w}"`);
-  for (const other of Object.keys(PAGES)) ok(html.includes(`href="${other}"`), `${file}: menu link ${other}`);
+  for (const other of MENU) ok(html.includes(`href="${other}"`), `${file}: menu link ${other}`);
   for (const [, href] of html.matchAll(/href="(\/[^"#?]*)/g)) {
     const p = href.slice(1);
     ok(p === '' || existsSync(join(ROOT, p, 'index.html')) || existsSync(join(ROOT, p)), `${file}: broken link ${href}`);
@@ -54,9 +60,11 @@ if (index) {
   const d = meta(index, 'description') || '';
   for (const k of DESC_KEYWORDS) ok(d.includes(k), `index: description keyword "${k}"`);
   ok(text(index).includes('SEO·AEO·GEO를 잘하는 대행사'), 'index: hero message');
-  ok((index.match(/href="\/consult\/"/g) || []).length >= 2, 'index: >=2 consult links');
+  ok(index.includes('id="hero-form"'), 'index: first-screen diagnosis form');
+  ok(index.includes('id="home-form"'), 'index: page-end diagnosis form');
   ok(index.includes('class="mobile-bar"'), 'index: .mobile-bar');
-  ok(index.includes('kakao-fab'), 'index: .kakao-fab');
+  ok(index.includes('class="fab"'), 'index: PC floating button');
+  ok(index.includes('id="exit-pop"'), 'index: exit popup');
   for (const n of NETWORK) ok(index.includes(n), `index: network link ${n}`);
   for (const p of ['/seo-aeo-geo/', '/shortform/', '/automation/']) ok(index.includes(`href="${p}"`), `index: product ${p}`);
   ok(index.includes('id="video-gallery"'), 'index: #video-gallery');
@@ -64,7 +72,7 @@ if (index) {
 }
 
 const css = read('assets/css/style.css') || '';
-ok(/#1F7A5C/i.test(css), 'css: point color #1F7A5C');
+ok(/--point: #00A06B/i.test(css), 'css: point color #00A06B');
 ok(css.includes('prefers-reduced-motion'), 'css: prefers-reduced-motion');
 
 const sitemap = read('sitemap.xml') || '';

@@ -1,7 +1,7 @@
 import { productPage } from '../product.mjs';
 
 export default productPage({
-  path: '/automation/', name: '마케팅 자동화', serviceType: '한의원 마케팅 자동화',
+  path: '/automation/', name: '마케팅 자동화', serviceType: '한의원 마케팅 자동화', product: '마케팅 자동화',
   title: '한의원 마케팅 자동화 | 발행·순위 추적·리포트 자동화 | 하니피알',
   description: '한의원·한방병원 콘텐츠 발행 일정, 키워드 순위 추적, AI 노출 모니터링, 월간 리포트를 자동화해 원장님은 진료에 집중하시도록 돕습니다.',
   h1: '한의원 마케팅 자동화,<br>원장님은 진료에만 집중하세요',

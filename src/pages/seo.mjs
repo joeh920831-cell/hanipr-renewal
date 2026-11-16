@@ -1,7 +1,7 @@
 import { productPage } from '../product.mjs';
 
 export default productPage({
-  path: '/seo-aeo-geo/', name: 'SEO·AEO·GEO', serviceType: '한의원 SEO·AEO·GEO 마케팅',
+  path: '/seo-aeo-geo/', name: 'SEO·AEO·GEO', serviceType: '한의원 SEO·AEO·GEO 마케팅', product: 'SEO·AEO·GEO (AI 매거진)',
   title: '한의원 SEO·AEO·GEO 마케팅 | 네이버 AI 브리핑·ChatGPT 노출 | 하니피알',
   description: '한의원·한방병원 블로그 상위노출(SEO), 네이버 AI 브리핑 답변 노출(AEO), ChatGPT·Gemini 추천·인용(GEO)을 AI 매거진 콘텐츠 하나로 설계합니다.',
   h1: '한의원 SEO·AEO·GEO,<br>검색 상위노출부터 AI 답변까지',

@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /diagnosis/done/
 
 Sitemap: https://hanipr-renewal.vercel.app/sitemap.xml

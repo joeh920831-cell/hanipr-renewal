@@ -5,7 +5,9 @@ import { validateLead } from '../assets/js/validate.js';
 const good = { name: '김원장', phone: '010-4236-6319', clinic: 'A한의원', region: '', agree: true };
 
 test('valid lead passes', () => assert.equal(validateLead(good), null));
-test('empty name rejected', () => assert.equal(validateLead({ ...good, name: '  ' }), '이름을 입력해 주세요'));
+test('name optional by default', () => assert.equal(validateLead({ ...good, name: '' }), null));
+test('empty name rejected when required', () => assert.equal(validateLead({ ...good, name: '  ' }, { requireName: true }), '원장님 성함을 입력해 주세요'));
+test('010 number must be 11 digits', () => assert.equal(validateLead({ ...good, phone: '010-1234-567' }), '연락처를 확인해 주세요'));
 test('empty clinic rejected', () => assert.equal(validateLead({ ...good, clinic: '' }), '한의원·한방병원명을 입력해 주세요'));
 test('short phone rejected', () => assert.equal(validateLead({ ...good, phone: '0101234' }), '연락처를 확인해 주세요'));
 test('phone formats accepted', () => {
